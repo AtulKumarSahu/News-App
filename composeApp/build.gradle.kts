@@ -1,5 +1,6 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -78,15 +79,37 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    val properties = Properties()
+    val file = File(rootDir,"secret.properties")
+    if (file.exists() && file.isFile) {
+        file.inputStream().use {
+            properties.load(it)
+        }
+
+    }
+
+
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-        }
+            val apiKey = properties.getProperty("API_KEY") ?: ""
+            buildConfigField("String", "API_KEY", "\"$apiKey\"")        }
+        getByName("debug") {
+            isMinifyEnabled = false
+            val apiKey = properties.getProperty("API_KEY") ?: ""
+            buildConfigField("String", "API_KEY", "\"$apiKey\"")        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    buildFeatures {
+        compose = true
+        buildConfig = true
+    }
+
 }
 
 dependencies {

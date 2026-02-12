@@ -1,6 +1,7 @@
 package com.sahusuper.newsapp.data.api
 
 import com.sahusuper.newsapp.appConfig.AppConfig
+import com.sahusuper.newsapp.appConfig.KeyProvider
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -33,7 +34,7 @@ object HttpClientFactory {
                     protocol = URLProtocol.HTTPS
                     host = "newsdata.io"
                     path("api/1/")
-                    parameters.append("apikey", AppConfig.API_KEY)
+                    parameters.append("apikey", KeyProvider.getApiKey())
                 }
                 contentType(ContentType.Application.Json)
             }

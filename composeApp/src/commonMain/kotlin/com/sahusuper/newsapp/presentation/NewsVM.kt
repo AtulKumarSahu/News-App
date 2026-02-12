@@ -48,6 +48,7 @@ class NewsVM(private val repo : NewsRepo): ViewModel() {
                     .catch {
                         emit(UiState.Error(it.toString()))
                     }
+
             }
             .stateIn(
                 scope = viewModelScope,
