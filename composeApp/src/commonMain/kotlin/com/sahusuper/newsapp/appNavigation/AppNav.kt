@@ -26,8 +26,9 @@ fun AppNav() {
                 HomeSc (newsVM = vm, backStack = backStack )
             }
 
-            entry<Routes.Deatils> {
-                DetailsSC {
+            entry<Routes.Deatils> { a->
+                val item = a.item
+                DetailsSC(item =item) {
                     backStack.removeLastOrNull()
                 }
             }
